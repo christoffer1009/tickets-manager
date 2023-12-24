@@ -24,8 +24,8 @@ type Ticket struct {
 	Titulo         string     `json:"titulo"`
 	Descricao      string     `json:"descricao"`
 	Status         Status     `json:"status"`
-	DataAbertura   time.Time  `json:"dataAbertura"`
-	DataFechamento *time.Time `json:"dataFechamento,omitempty"`
+	DataAbertura   time.Time  `json:"data_abertura"`
+	DataFechamento *time.Time `json:"data_fechamento,omitempty"`
 	Responsavel    *Tecnico   `json:"responsavel,omitempty" gorm:"foreignKey:ResponsavelID"`
 	Solicitante    *Cliente   `json:"solicitante,omitempty" gorm:"foreignKey:SolicitanteID"`
 	ResponsavelID  *uuid.UUID `json:"-" gorm:"type:uuid;index:idx_responsavel_id,responsavel_id"`

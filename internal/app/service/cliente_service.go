@@ -20,7 +20,7 @@ func (s *ClienteService) CriarCliente(clienteDTO *models.ClienteDTO) (*models.Cl
 	novoCliente := models.NovoCliente(
 		clienteDTO.Nome,
 		clienteDTO.Email,
-		clienteDTO.SetorLocacao,
+		clienteDTO.SetorLotacao,
 	)
 
 	return s.ClienteRepository.CriarCliente(novoCliente)

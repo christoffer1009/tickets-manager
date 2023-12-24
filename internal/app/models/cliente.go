@@ -12,18 +12,18 @@ type Cliente struct {
 	ID           uuid.UUID `json:"id" gorm:"primaryKey"`
 	Nome         string    `json:"nome"`
 	Email        string    `json:"email" gorm:"unique"`
-	SetorLocacao string    `json:"setorLocacao"`
-	TotalTickets int       `json:"totalTickets"`
+	SetorLotacao string    `json:"setor_lotacao"`
+	TotalTickets int       `json:"total_tickets"`
 	Tickets      []*Ticket `json:"tickets,omitempty" gorm:"foreignKey:SolicitanteID"`
 }
 
 // NovoCliente cria uma nova instância de Cliente.
-func NovoCliente(nome, email, setorLocacao string) *Cliente {
+func NovoCliente(nome, email, setorLotacao string) *Cliente {
 	return &Cliente{
 		ID:           uuid.New(),
 		Nome:         nome,
 		Email:        email,
-		SetorLocacao: setorLocacao,
+		SetorLotacao: setorLotacao,
 		TotalTickets: 0,
 	}
 }
@@ -74,16 +74,16 @@ func (c *Cliente) BeforeCreate(tx *gorm.DB) (err error) {
 // 	return c.email
 // }
 
-// func (c *Cliente) SetSetorLocacao(setorLocacao string) {
+// func (c *Cliente) SetSetorLotacao(setorLotacao string) {
 // 	c.mu.Lock()
 // 	defer c.mu.Unlock()
-// 	c.setorLocacao = setorLocacao
+// 	c.setorLotacao = setorLotacao
 // }
 
-// func (c *Cliente) GetSetorLocacao() string {
+// func (c *Cliente) GetSetorLotacao() string {
 // 	c.mu.Lock()
 // 	defer c.mu.Unlock()
-// 	return c.setorLocacao
+// 	return c.setorLotacao
 // }
 
 // func (c *Cliente) SetTotalTickets(totalTickets int) {
@@ -105,5 +105,5 @@ func (c *Cliente) AdicionarTotalTickets() int {
 
 func (c *Cliente) ToString() string {
 	return fmt.Sprintf("ID: %s\nNome: %s\nEmail: %s\nSetor de Locação: %s\nTotal de Tickets: %d",
-		c.ID, c.Nome, c.Email, c.SetorLocacao, c.TotalTickets)
+		c.ID, c.Nome, c.Email, c.SetorLotacao, c.TotalTickets)
 }
