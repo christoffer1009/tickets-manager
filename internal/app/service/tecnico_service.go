@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/christoffer1009/tickets-manager/internal/app/models"
 	"github.com/christoffer1009/tickets-manager/internal/app/repository"
+	"github.com/google/uuid"
 )
 
 type TecnicoService struct {
@@ -28,4 +29,8 @@ func (s *TecnicoService) Criar(tecnicoDTO *models.TecnicoDTO) (*models.Tecnico, 
 
 func (s *TecnicoService) EncontrarTodos() ([]*models.Tecnico, error) {
 	return s.TecnicoRepository.EncontrarTodos()
+}
+
+func (s *TecnicoService) EncontrarPorID(tecnicoID uuid.UUID) (*models.Tecnico, error) {
+	return s.TecnicoRepository.EncontrarPorID(tecnicoID)
 }

@@ -35,12 +35,15 @@ func main() {
 	// Configurar rotas
 	r.POST("/tickets", ticketHandler.Criar)
 	r.GET("/tickets", ticketHandler.EncontrarTodos)
+	r.GET("/tickets/:id", ticketHandler.EncontrarPorID)
 
 	r.POST("/tecnicos", tecnicoHandler.Criar)
 	r.GET("/tecnicos", tecnicoHandler.EncontrarTodos)
+	r.GET("/tecnicos/:id", tecnicoHandler.EncontrarPorID)
 
 	r.POST("/clientes", clienteHandler.Criar)
 	r.GET("/clientes", clienteHandler.EncontrarTodos)
+	r.GET("/clientes/:id", clienteHandler.EncontrarPorID)
 
 	// Iniciar servidor
 	r.Run(":8080")

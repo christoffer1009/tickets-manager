@@ -6,6 +6,7 @@ import (
 	"github.com/christoffer1009/tickets-manager/internal/app/models"
 	"github.com/christoffer1009/tickets-manager/internal/app/service"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type ClienteHandler struct {
@@ -42,4 +43,24 @@ func (h *ClienteHandler) EncontrarTodos(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, clientes)
+}
+
+func (h *ClienteHandler) EncontrarPorID(c *gin.Context) {
+	// Obter o ID do cliente dos parâmetros da rota
+	clienteIDStr := c.Param("id")
+
+	// Validar o formato do ID
+	clienteID, err := uuid.Parse(clienteIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Formato inválido de ID"})
+		return
+	}
+
+	cliente, err := h.ClienteService.EncontrarPorID(clienteID)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"erro": "Cliente não encontrado"})
+		return
+	}
+
+	c.JSON(http.StatusOK, cliente)
 }

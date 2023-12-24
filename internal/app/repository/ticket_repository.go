@@ -30,16 +30,10 @@ func (r *TicketRepository) EncontrarTodos() ([]*models.Ticket, error) {
 	return tickets, err
 }
 
-func (r *TicketRepository) EncontrarPorID(id uuid.UUID) (*models.Ticket, error) {
+func (r *TicketRepository) EncontrarPorID(ticketID uuid.UUID) (*models.Ticket, error) {
 	var ticket models.Ticket
-	if err := r.DB.First(&ticket, id).Error; err != nil {
+	if err := r.DB.First(&ticket, ticketID).Error; err != nil {
 		return nil, err
 	}
 	return &ticket, nil
-}
-
-func (r *TicketRepository) AtribuirTecnico() ([]*models.Ticket, error) {
-	var tickets []*models.Ticket
-	err := r.DB.Find(&tickets).Error
-	return tickets, err
 }

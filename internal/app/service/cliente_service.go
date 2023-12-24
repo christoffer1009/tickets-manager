@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/christoffer1009/tickets-manager/internal/app/models"
 	"github.com/christoffer1009/tickets-manager/internal/app/repository"
+	"github.com/google/uuid"
 )
 
 type ClienteService struct {
@@ -28,4 +29,8 @@ func (s *ClienteService) Criar(clienteDTO *models.ClienteDTO) (*models.Cliente, 
 
 func (s *ClienteService) EncontrarTodos() ([]*models.Cliente, error) {
 	return s.ClienteRepository.EncontrarTodos()
+}
+
+func (s *ClienteService) EncontrarPorID(clienteID uuid.UUID) (*models.Cliente, error) {
+	return s.ClienteRepository.EncontrarPorID(clienteID)
 }

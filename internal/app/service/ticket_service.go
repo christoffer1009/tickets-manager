@@ -44,6 +44,6 @@ func (s *TicketService) EncontrarTodos() ([]*models.Ticket, error) {
 	return s.TicketRepository.EncontrarTodos()
 }
 
-func (s *TicketService) EncontrarPorID(id uuid.UUID) (*models.Ticket, error) {
-	return s.TicketRepository.EncontrarPorID(id)
+func (s *TicketService) EncontrarPorID(ticketID uuid.UUID) (*models.Ticket, error) {
+	return s.TicketRepository.EncontrarPorID(ticketID)
 }
