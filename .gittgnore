@@ -1,0 +1,37 @@
+# Binários
+*.exe
+*.dll
+*.out
+
+# Arquivos de configuração
+*.env
+*.log
+# Ignorar tudo dentro do diretório 'configs'
+/configs/*
+
+
+# Dependências
+/go.sum
+/go.mod
+
+# Arquivos de compilação
+*.o
+*.a
+
+# Arquivos temporários
+*.tmp
+
+# Arquivos de cache
+*.cache
+
+# Artefatos de teste
+*.test
+
+# Configurações de editor
+.vscode/
+.idea/
+
+# Arquivos específicos do sistema operacional
+.DS_Store
+Thumbs.db
+
