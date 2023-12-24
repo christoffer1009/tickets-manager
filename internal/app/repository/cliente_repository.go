@@ -45,10 +45,32 @@ func (r *ClienteRepository) Existe(id uuid.UUID) bool {
 	return count > 0
 }
 
-func (r *ClienteRepository) Atualizar(cliente *models.Cliente) error {
+func (r *ClienteRepository) Atualizar(id uuid.UUID, clienteDTO *models.AtualizarClienteDTO) error {
 	// Verifica se o cliente existe antes de atualizar
-	if !r.Existe(cliente.ID) {
+	if !r.Existe(id) {
 		return gorm.ErrRecordNotFound
+	}
+
+	cliente, err := r.EncontrarPorID(id)
+	if err != nil {
+		return err
+	}
+
+	// Atualiza apenas os campos fornecidos no DTO
+	if clienteDTO.Nome != "" {
+		cliente.Nome = clienteDTO.Nome
+	}
+
+	if clienteDTO.Email != "" {
+		cliente.Email = clienteDTO.Email
+	}
+
+	if clienteDTO.SetorLotacao != "" {
+		cliente.SetorLotacao = clienteDTO.SetorLotacao
+	}
+
+	if clienteDTO.TotalTickets != 0 {
+		cliente.TotalTickets = clienteDTO.TotalTickets
 	}
 
 	return r.DB.Save(cliente).Error

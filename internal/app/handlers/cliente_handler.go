@@ -67,7 +67,7 @@ func (h *ClienteHandler) EncontrarPorID(c *gin.Context) {
 }
 
 func (h *ClienteHandler) Atualizar(c *gin.Context) {
-	clienteID, err := uuid.Parse(c.Param("id"))
+	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Formato inválido de ID"})
 		return
@@ -81,9 +81,9 @@ func (h *ClienteHandler) Atualizar(c *gin.Context) {
 	}
 
 	// Passa o ID para o DTO
-	clienteDTO.ID = clienteID
+	// clienteDTO.ID = id
 
-	if err := h.ClienteService.Atualizar(&clienteDTO); err != nil {
+	if err := h.ClienteService.Atualizar(id, &clienteDTO); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

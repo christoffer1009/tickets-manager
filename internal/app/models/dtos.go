@@ -57,9 +57,9 @@ type ClienteDTO struct {
 }
 
 type AtualizarClienteDTO struct {
-	ID           uuid.UUID `json:"id"`
-	Nome         string    `json:"nome"`
-	Email        string    `json:"email"`
-	SetorLotacao string    `json:"setor_lotacao"`
-	TotalTickets int       `json:"total_tickets"`
+	// ID           uuid.UUID `json:"id"`
+	Nome         string `json:"nome"`
+	Email        string `json:"email"`
+	SetorLotacao string `json:"setor_lotacao"`
+	TotalTickets int    `json:"total_tickets"`
 }

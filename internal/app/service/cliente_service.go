@@ -37,21 +37,21 @@ func (s *ClienteService) EncontrarPorID(clienteID uuid.UUID) (*models.Cliente, e
 	return s.ClienteRepository.EncontrarPorID(clienteID)
 }
 
-func (s *ClienteService) Atualizar(clienteDTO *models.AtualizarClienteDTO) error {
+func (s *ClienteService) Atualizar(id uuid.UUID, clienteDTO *models.AtualizarClienteDTO) error {
 	// Verifica se o cliente existe antes de atualizar
-	if !s.ClienteRepository.Existe(clienteDTO.ID) {
-		return fmt.Errorf("cliente com ID %v não encontrado", clienteDTO.ID)
+	if !s.ClienteRepository.Existe(id) {
+		return fmt.Errorf("cliente com ID %v não encontrado", id)
 	}
 	// Converte o DTO para o modelo
-	cliente := &models.Cliente{
-		ID:           clienteDTO.ID,
+	cliente := &models.AtualizarClienteDTO{
+		// ID:           clienteDTO.ID,
 		Nome:         clienteDTO.Nome,
 		Email:        clienteDTO.Email,
 		SetorLotacao: clienteDTO.SetorLotacao,
 		TotalTickets: clienteDTO.TotalTickets,
 	}
 
-	return s.ClienteRepository.Atualizar(cliente)
+	return s.ClienteRepository.Atualizar(id, cliente)
 }
 
 func (s *ClienteService) Excluir(id uuid.UUID) error {
