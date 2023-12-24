@@ -21,6 +21,7 @@ func NovoClienteHandler(clienteService *service.ClienteService) *ClienteHandler 
 
 func (h *ClienteHandler) Criar(c *gin.Context) {
 	var novoClienteDTO models.ClienteDTO
+
 	if err := c.BindJSON(&novoClienteDTO); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"erro": "Dados inválidos"})
 		return
@@ -32,7 +33,10 @@ func (h *ClienteHandler) Criar(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, novoCliente)
+	novoClienteDTO.ID = novoCliente.ID
+	novoClienteDTO.TotalTickets = novoCliente.TotalTickets
+
+	c.JSON(http.StatusCreated, novoClienteDTO)
 }
 
 func (h *ClienteHandler) EncontrarTodos(c *gin.Context) {
