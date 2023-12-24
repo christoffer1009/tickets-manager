@@ -20,7 +20,7 @@ func (s *TecnicoService) CriarTecnico(tecnicoDTO *models.TecnicoDTO) (*models.Te
 
 		tecnicoDTO.Nome,
 		tecnicoDTO.Email,
-		models.NivelPrivilegio(tecnicoDTO.Nivel),
+		tecnicoDTO.Nivel,
 	)
 
 	return s.TecnicoRepository.CriarTecnico(novoTecnico)

@@ -24,11 +24,6 @@ func NovoTicketService(ticketRepository *repository.TicketRepository,
 
 func (s *TicketService) CriarTicket(ticketDTO *models.TicketDTO) (*models.Ticket, error) {
 
-	tecnico, err := s.TecnicoRepository.EncontraTecnicoPorID(ticketDTO.TecnicoID)
-	if err != nil {
-		return nil, err
-	}
-
 	cliente, err := s.ClienteRepository.EncontraClientePorID(ticketDTO.ClienteID)
 	if err != nil {
 		return nil, err
@@ -37,8 +32,7 @@ func (s *TicketService) CriarTicket(ticketDTO *models.TicketDTO) (*models.Ticket
 	novoTicket := models.NovoTicket(
 		ticketDTO.Titulo,
 		ticketDTO.Descricao,
-		ticketDTO.Status,
-		tecnico,
+		nil,
 		cliente,
 	)
 

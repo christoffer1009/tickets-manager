@@ -11,7 +11,7 @@ type TicketDTO struct {
 	ID             uuid.UUID  `json:"id"`
 	Titulo         string     `json:"titulo"`
 	Descricao      string     `json:"descricao"`
-	Status         string     `json:"status"`
+	Status         Status     `json:"status"`
 	DataAbertura   time.Time  `json:"data_abertura"`
 	DataFechamento *time.Time `json:"data_fechamento"`
 	TecnicoID      uuid.UUID  `json:"tecnico_id"`
@@ -20,11 +20,11 @@ type TicketDTO struct {
 
 // TecnicoDTO representa a estrutura de dados para transferência de dados relacionados a técnicos.
 type TecnicoDTO struct {
-	ID                  uuid.UUID `json:"id"`
-	Nome                string    `json:"nome"`
-	Email               string    `json:"email"`
-	TicketsSolucionados int       `json:"tickets_solucionados"`
-	Nivel               string    `json:"nivel"`
+	ID                  uuid.UUID       `json:"id"`
+	Nome                string          `json:"nome"`
+	Email               string          `json:"email"`
+	TicketsSolucionados int             `json:"tickets_solucionados"`
+	Nivel               NivelPrivilegio `json:"nivel"`
 }
 
 // ClienteDTO representa a estrutura de dados para transferência de dados relacionados a clientes.
