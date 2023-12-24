@@ -65,3 +65,31 @@ func (h *TicketHandler) EncontrarPorID(c *gin.Context) {
 
 	c.JSON(http.StatusOK, ticket)
 }
+
+// AtribuirTecnico é um handler para atribuir um técnico a um ticket
+func (h *TicketHandler) AtribuirTecnico(c *gin.Context) {
+	// Obter IDs do ticket e do técnico dos parâmetros da rota
+	ticketIDStr := c.Param("id")
+	tecnicoIDStr := c.Param("tecnicoID")
+
+	// Validar formatos dos IDs
+	ticketID, err := uuid.Parse(ticketIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Formato inválido de ID do ticket"})
+		return
+	}
+
+	tecnicoID, err := uuid.Parse(tecnicoIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Formato inválido de ID do técnico"})
+		return
+	}
+
+	// Chamar o serviço para atribuir o técnico ao ticket
+	if err := h.TicketService.AtribuirTecnico(ticketID, tecnicoID); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Falha ao atribuir o técnico ao ticket"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Técnico atribuído com sucesso ao ticket"})
+}

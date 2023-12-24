@@ -36,6 +36,7 @@ func main() {
 	r.POST("/tickets", ticketHandler.Criar)
 	r.GET("/tickets", ticketHandler.EncontrarTodos)
 	r.GET("/tickets/:id", ticketHandler.EncontrarPorID)
+	r.PUT("/tickets/:id/atribuir/:tecnicoID", ticketHandler.AtribuirTecnico)
 
 	r.POST("/tecnicos", tecnicoHandler.Criar)
 	r.GET("/tecnicos", tecnicoHandler.EncontrarTodos)

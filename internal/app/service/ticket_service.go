@@ -47,3 +47,8 @@ func (s *TicketService) EncontrarTodos() ([]*models.Ticket, error) {
 func (s *TicketService) EncontrarPorID(ticketID uuid.UUID) (*models.Ticket, error) {
 	return s.TicketRepository.EncontrarPorID(ticketID)
 }
+
+// AtribuirTecnico atribui um técnico a um ticket
+func (s *TicketService) AtribuirTecnico(ticketID uuid.UUID, tecnicoID uuid.UUID) error {
+	return s.TicketRepository.AtribuirTecnico(ticketID, tecnicoID)
+}
