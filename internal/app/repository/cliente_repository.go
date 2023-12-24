@@ -38,3 +38,27 @@ func (r *ClienteRepository) EncontrarPorID(clienteID uuid.UUID) (*models.Cliente
 	}
 	return &cliente, nil
 }
+
+func (r *ClienteRepository) Existe(id uuid.UUID) bool {
+	var count int64
+	r.DB.Model(&models.Cliente{}).Where("id = ?", id).Count(&count)
+	return count > 0
+}
+
+func (r *ClienteRepository) Atualizar(cliente *models.Cliente) error {
+	// Verifica se o cliente existe antes de atualizar
+	if !r.Existe(cliente.ID) {
+		return gorm.ErrRecordNotFound
+	}
+
+	return r.DB.Save(cliente).Error
+}
+
+func (r *ClienteRepository) Excluir(id uuid.UUID) error {
+	// Verifica se o cliente existe antes de deletar
+	if !r.Existe(id) {
+		return gorm.ErrRecordNotFound
+	}
+
+	return r.DB.Delete(&models.Cliente{}, id).Error
+}

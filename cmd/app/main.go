@@ -45,6 +45,8 @@ func main() {
 	r.POST("/clientes", clienteHandler.Criar)
 	r.GET("/clientes", clienteHandler.EncontrarTodos)
 	r.GET("/clientes/:id", clienteHandler.EncontrarPorID)
+	r.PUT("/clientes/:id", clienteHandler.Atualizar)
+	r.DELETE("/clientes/:id", clienteHandler.Excluir)
 
 	// Iniciar servidor
 	r.Run(":8080")

@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/christoffer1009/tickets-manager/internal/app/models"
 	"github.com/christoffer1009/tickets-manager/internal/app/repository"
 	"github.com/google/uuid"
@@ -33,4 +35,30 @@ func (s *ClienteService) EncontrarTodos() ([]*models.Cliente, error) {
 
 func (s *ClienteService) EncontrarPorID(clienteID uuid.UUID) (*models.Cliente, error) {
 	return s.ClienteRepository.EncontrarPorID(clienteID)
+}
+
+func (s *ClienteService) Atualizar(clienteDTO *models.AtualizarClienteDTO) error {
+	// Verifica se o cliente existe antes de atualizar
+	if !s.ClienteRepository.Existe(clienteDTO.ID) {
+		return fmt.Errorf("cliente com ID %v não encontrado", clienteDTO.ID)
+	}
+	// Converte o DTO para o modelo
+	cliente := &models.Cliente{
+		ID:           clienteDTO.ID,
+		Nome:         clienteDTO.Nome,
+		Email:        clienteDTO.Email,
+		SetorLotacao: clienteDTO.SetorLotacao,
+		TotalTickets: clienteDTO.TotalTickets,
+	}
+
+	return s.ClienteRepository.Atualizar(cliente)
+}
+
+func (s *ClienteService) Excluir(id uuid.UUID) error {
+	// Verifica se o cliente existe antes de deletar
+	if !s.ClienteRepository.Existe(id) {
+		return fmt.Errorf("cliente com ID %v não encontrado", id)
+	}
+
+	return s.ClienteRepository.Excluir(id)
 }
