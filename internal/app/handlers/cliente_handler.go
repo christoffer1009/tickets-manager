@@ -80,9 +80,6 @@ func (h *ClienteHandler) Atualizar(c *gin.Context) {
 		return
 	}
 
-	// Passa o ID para o DTO
-	// clienteDTO.ID = id
-
 	if err := h.ClienteService.Atualizar(id, &clienteDTO); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

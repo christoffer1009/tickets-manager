@@ -67,7 +67,7 @@ func (h *TecnicoHandler) EncontrarPorID(c *gin.Context) {
 }
 
 func (h *TecnicoHandler) Atualizar(c *gin.Context) {
-	tecnicoID, err := uuid.Parse(c.Param("id"))
+	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Formato inválido de ID"})
 		return
@@ -80,10 +80,7 @@ func (h *TecnicoHandler) Atualizar(c *gin.Context) {
 		return
 	}
 
-	// Passa o ID para o DTO
-	tecnicoDTO.ID = tecnicoID
-
-	if err := h.TecnicoService.Atualizar(&tecnicoDTO); err != nil {
+	if err := h.TecnicoService.Atualizar(id, &tecnicoDTO); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

@@ -45,10 +45,36 @@ func (r *TecnicoRepository) Existe(id uuid.UUID) bool {
 	return count > 0
 }
 
-func (r *TecnicoRepository) Atualizar(tecnico *models.Tecnico) error {
+func (r *TecnicoRepository) Atualizar(id uuid.UUID, tecnicoDTO *models.AtualizarTecnicoDTO) error {
 	// Verifica se o tecnico existe antes de atualizar
-	if !r.Existe(tecnico.ID) {
+	if !r.Existe(id) {
 		return gorm.ErrRecordNotFound
+	}
+
+	tecnico, err := r.EncontrarPorID(id)
+	if err != nil {
+		return err
+	}
+
+	// Atualiza apenas os campos fornecidos no DTO
+	if tecnicoDTO.Nome != "" {
+		tecnico.Nome = tecnicoDTO.Nome
+	}
+
+	if tecnicoDTO.Email != "" {
+		tecnico.Email = tecnicoDTO.Email
+	}
+
+	if tecnicoDTO.Nivel != "" {
+		tecnico.Nivel = tecnicoDTO.Nivel
+	}
+
+	if tecnicoDTO.TicketsSolucionados != 0 {
+		tecnico.TicketsSolucionados = tecnicoDTO.TicketsSolucionados
+	}
+
+	if tecnicoDTO.SetorLotacao != "" {
+		tecnico.SetorLotacao = tecnicoDTO.SetorLotacao
 	}
 
 	return r.DB.Save(tecnico).Error

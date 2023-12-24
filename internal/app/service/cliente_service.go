@@ -42,16 +42,8 @@ func (s *ClienteService) Atualizar(id uuid.UUID, clienteDTO *models.AtualizarCli
 	if !s.ClienteRepository.Existe(id) {
 		return fmt.Errorf("cliente com ID %v não encontrado", id)
 	}
-	// Converte o DTO para o modelo
-	cliente := &models.AtualizarClienteDTO{
-		// ID:           clienteDTO.ID,
-		Nome:         clienteDTO.Nome,
-		Email:        clienteDTO.Email,
-		SetorLotacao: clienteDTO.SetorLotacao,
-		TotalTickets: clienteDTO.TotalTickets,
-	}
 
-	return s.ClienteRepository.Atualizar(id, cliente)
+	return s.ClienteRepository.Atualizar(id, clienteDTO)
 }
 
 func (s *ClienteService) Excluir(id uuid.UUID) error {

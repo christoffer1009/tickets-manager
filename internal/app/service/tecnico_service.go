@@ -37,22 +37,13 @@ func (s *TecnicoService) EncontrarPorID(tecnicoID uuid.UUID) (*models.Tecnico, e
 	return s.TecnicoRepository.EncontrarPorID(tecnicoID)
 }
 
-func (s *TecnicoService) Atualizar(tecnicoDTO *models.AtualizarTecnicoDTO) error {
+func (s *TecnicoService) Atualizar(id uuid.UUID, tecnicoDTO *models.AtualizarTecnicoDTO) error {
 	// Verifica se o tecnico existe antes de atualizar
-	if !s.TecnicoRepository.Existe(tecnicoDTO.ID) {
+	if !s.TecnicoRepository.Existe(id) {
 		return fmt.Errorf("tecnico com ID %v não encontrado", tecnicoDTO.ID)
 	}
-	// Converte o DTO para o modelo
-	tecnico := &models.Tecnico{
-		ID:                  tecnicoDTO.ID,
-		Nome:                tecnicoDTO.Nome,
-		Email:               tecnicoDTO.Email,
-		TicketsSolucionados: tecnicoDTO.TicketsSolucionados,
-		SetorLotacao:        tecnicoDTO.SetorLotacao,
-		Nivel:               tecnicoDTO.Nivel,
-	}
 
-	return s.TecnicoRepository.Atualizar(tecnico)
+	return s.TecnicoRepository.Atualizar(id, tecnicoDTO)
 }
 
 func (s *TecnicoService) Excluir(id uuid.UUID) error {
