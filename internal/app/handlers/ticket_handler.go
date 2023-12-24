@@ -35,7 +35,7 @@ func (h *TicketHandler) Criar(c *gin.Context) {
 
 }
 
-func (h *TicketHandler) ListarTodos(c *gin.Context) {
+func (h *TicketHandler) EncontrarTodos(c *gin.Context) {
 	tickets, err := h.TicketService.EncontrarTodos()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao listar os tickets"})

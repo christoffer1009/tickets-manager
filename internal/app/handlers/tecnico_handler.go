@@ -34,7 +34,7 @@ func (h *TecnicoHandler) Criar(c *gin.Context) {
 	c.JSON(http.StatusCreated, novoTecnico)
 }
 
-func (h *TecnicoHandler) ListarTodos(c *gin.Context) {
+func (h *TecnicoHandler) EncontrarTodos(c *gin.Context) {
 	tecnicos, err := h.TecnicoService.EncontrarTodos()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao listar os técnicos"})

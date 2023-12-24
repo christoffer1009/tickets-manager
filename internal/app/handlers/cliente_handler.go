@@ -34,7 +34,7 @@ func (h *ClienteHandler) Criar(c *gin.Context) {
 	c.JSON(http.StatusCreated, novoCliente)
 }
 
-func (h *ClienteHandler) ListarTodos(c *gin.Context) {
+func (h *ClienteHandler) EncontrarTodos(c *gin.Context) {
 	clientes, err := h.ClienteService.EncontrarTodos()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao listar os clientes"})
