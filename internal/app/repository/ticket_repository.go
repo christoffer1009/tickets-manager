@@ -32,7 +32,7 @@ func (r *TicketRepository) EncontrarTodos() ([]*models.Ticket, error) {
 
 func (r *TicketRepository) EncontrarPorID(ticketID uuid.UUID) (*models.Ticket, error) {
 	var ticket models.Ticket
-	if err := r.DB.Preload("Solicitante").Preload("Responsavel").First(&ticket, ticketID).Error; err != nil {
+	if err := r.DB.Preload("Cliente").Preload("Tecnico").First(&ticket, ticketID).Error; err != nil {
 		return nil, err
 	}
 	return &ticket, nil
@@ -49,8 +49,8 @@ func (r *TicketRepository) AtribuirTecnico(ticketID uuid.UUID, tecnicoID uuid.UU
 		return err
 	}
 
-	ticket.Responsavel = &tecnico
-	ticket.ResponsavelID = &tecnico.ID
+	ticket.Tecnico = &tecnico
+	ticket.TecnicoID = &tecnico.ID
 
 	if err := r.DB.Save(&ticket).Error; err != nil {
 		return err

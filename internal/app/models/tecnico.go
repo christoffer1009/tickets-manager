@@ -23,7 +23,7 @@ type Tecnico struct {
 	Nivel               NivelPrivilegio `json:"nivel"`
 	SetorLotacao        string          `json:"setor_lotacao"`
 	Email               string          `json:"email" gorm:"unique"`
-	Tickets             []*Ticket       `json:"tickets,omitempty" gorm:"foreignKey:ResponsavelID"`
+	Tickets             []*Ticket       `json:"tickets,omitempty" gorm:"foreignKey:TecnicoID"`
 }
 
 // NovoTecnico é um construtor para criar uma nova instância de Tecnico.

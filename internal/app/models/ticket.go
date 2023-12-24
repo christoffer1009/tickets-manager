@@ -26,10 +26,10 @@ type Ticket struct {
 	Status         Status     `json:"status"`
 	DataAbertura   time.Time  `json:"data_abertura"`
 	DataFechamento *time.Time `json:"data_fechamento,omitempty"`
-	Responsavel    *Tecnico   `json:"responsavel,omitempty" gorm:"foreignKey:ResponsavelID"`
-	Solicitante    *Cliente   `json:"solicitante,omitempty" gorm:"foreignKey:SolicitanteID"`
-	ResponsavelID  *uuid.UUID `json:"-" gorm:"type:uuid;index:idx_responsavel_id,responsavel_id"`
-	SolicitanteID  uuid.UUID  `json:"-" gorm:"type:uuid;index:idx_solicitante_id,solicitante_id"`
+	Tecnico        *Tecnico   `json:"tecnico,omitempty" gorm:"foreignKey:TecnicoID"`
+	Cliente        *Cliente   `json:"cliente,omitempty" gorm:"foreignKey:ClienteID"`
+	TecnicoID      *uuid.UUID `json:"-" gorm:"type:uuid;index:idx_tecnico_id,tecnico_id"`
+	ClienteID      uuid.UUID  `json:"-" gorm:"type:uuid;index:idx_cliente_id,cliente_id"`
 }
 
 // NovoTicket é um construtor para criar uma nova instância de Ticket.
@@ -41,8 +41,8 @@ func NovoTicket(titulo, descricao string, responsavel *Tecnico, solicitante *Cli
 		Status:         Status(Aberto),
 		DataAbertura:   time.Now(),
 		DataFechamento: nil,
-		Responsavel:    nil,
-		Solicitante:    solicitante,
+		Tecnico:        nil,
+		Cliente:        solicitante,
 	}
 }
 
@@ -54,8 +54,8 @@ func (t *Ticket) BeforeCreate(tx *gorm.DB) (err error) {
 }
 
 func (t *Ticket) AtribuirTecnico(tecnico *Tecnico) {
-	t.Responsavel = tecnico
-	t.ResponsavelID = &tecnico.ID
+	t.Tecnico = tecnico
+	t.TecnicoID = &tecnico.ID
 }
 
 func (t *Ticket) ToString() string {
@@ -68,5 +68,5 @@ func (t *Ticket) ToString() string {
 	return fmt.Sprintf("ID: %s\nTitulo: %s\nDescricao: %s\nStatus: %s\nData Abertura: %s\nData Fechamento: %s\nResponsavel: %s\nSolicitante: %s",
 		t.ID, t.Titulo, t.Descricao, t.Status,
 		t.DataAbertura.String(), dataFechamentoStr,
-		t.Responsavel.Nome, t.Solicitante.Nome)
+		t.Tecnico.Nome, t.Cliente.Nome)
 }

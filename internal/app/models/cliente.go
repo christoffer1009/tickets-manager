@@ -14,7 +14,7 @@ type Cliente struct {
 	Email        string    `json:"email" gorm:"unique"`
 	SetorLotacao string    `json:"setor_lotacao"`
 	TotalTickets int       `json:"total_tickets"`
-	Tickets      []*Ticket `json:"tickets,omitempty" gorm:"foreignKey:SolicitanteID"`
+	Tickets      []*Ticket `json:"tickets,omitempty" gorm:"foreignKey:ClienteID"`
 }
 
 // NovoCliente cria uma nova instância de Cliente.
