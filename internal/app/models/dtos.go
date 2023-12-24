@@ -28,6 +28,15 @@ type TecnicoDTO struct {
 	SetorLotacao        string          `json:"setor_lotacao"`
 }
 
+type AtualizarTecnicoDTO struct {
+	ID                  uuid.UUID       `json:"id"`
+	Nome                string          `json:"nome"`
+	Email               string          `json:"email"`
+	TicketsSolucionados int             `json:"tickets_solucionados"`
+	Nivel               NivelPrivilegio `json:"nivel"`
+	SetorLotacao        string          `json:"setor_lotacao"`
+}
+
 // ClienteDTO representa a estrutura de dados para transferência de dados relacionados a clientes.
 type ClienteDTO struct {
 	ID           uuid.UUID `json:"id"`

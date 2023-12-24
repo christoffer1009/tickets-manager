@@ -38,3 +38,27 @@ func (r *TecnicoRepository) EncontrarPorID(tecnicoID uuid.UUID) (*models.Tecnico
 	}
 	return &tecnico, nil
 }
+
+func (r *TecnicoRepository) Existe(id uuid.UUID) bool {
+	var count int64
+	r.DB.Model(&models.Tecnico{}).Where("id = ?", id).Count(&count)
+	return count > 0
+}
+
+func (r *TecnicoRepository) Atualizar(tecnico *models.Tecnico) error {
+	// Verifica se o tecnico existe antes de atualizar
+	if !r.Existe(tecnico.ID) {
+		return gorm.ErrRecordNotFound
+	}
+
+	return r.DB.Save(tecnico).Error
+}
+
+func (r *TecnicoRepository) Excluir(id uuid.UUID) error {
+	// Verifica se o tecnico existe antes de deletar
+	if !r.Existe(id) {
+		return gorm.ErrRecordNotFound
+	}
+
+	return r.DB.Delete(&models.Tecnico{}, id).Error
+}

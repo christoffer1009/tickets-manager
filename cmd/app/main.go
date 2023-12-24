@@ -41,6 +41,8 @@ func main() {
 	r.POST("/tecnicos", tecnicoHandler.Criar)
 	r.GET("/tecnicos", tecnicoHandler.EncontrarTodos)
 	r.GET("/tecnicos/:id", tecnicoHandler.EncontrarPorID)
+	r.PUT("/tecnicos/:id", tecnicoHandler.Atualizar)
+	r.DELETE("/tecnicos/:id", tecnicoHandler.Excluir)
 
 	r.POST("/clientes", clienteHandler.Criar)
 	r.GET("/clientes", clienteHandler.EncontrarTodos)

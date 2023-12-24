@@ -7,6 +7,7 @@ import (
 	"github.com/christoffer1009/tickets-manager/internal/app/service"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type TecnicoHandler struct {
@@ -63,4 +64,48 @@ func (h *TecnicoHandler) EncontrarPorID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, tecnico)
+}
+
+func (h *TecnicoHandler) Atualizar(c *gin.Context) {
+	tecnicoID, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Formato inválido de ID"})
+		return
+	}
+
+	var tecnicoDTO models.AtualizarTecnicoDTO
+
+	if err := c.ShouldBindJSON(&tecnicoDTO); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Passa o ID para o DTO
+	tecnicoDTO.ID = tecnicoID
+
+	if err := h.TecnicoService.Atualizar(&tecnicoDTO); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Tecnico atualizado com sucesso"})
+}
+
+func (h *TecnicoHandler) Excluir(c *gin.Context) {
+	id, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Formato inválido de ID"})
+		return
+	}
+
+	if err := h.TecnicoService.Excluir(id); err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Técnico não encontrado"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Técnico deletado com sucesso"})
 }
