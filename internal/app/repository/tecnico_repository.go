@@ -16,7 +16,7 @@ func NovoTecnicoRepository(db *gorm.DB) *TecnicoRepository {
 	}
 }
 
-func (r *TecnicoRepository) CriarTecnico(tecnico *models.Tecnico) (*models.Tecnico, error) {
+func (r *TecnicoRepository) Criar(tecnico *models.Tecnico) (*models.Tecnico, error) {
 	if err := r.DB.Create(tecnico).Error; err != nil {
 		return nil, err
 	}
@@ -24,13 +24,13 @@ func (r *TecnicoRepository) CriarTecnico(tecnico *models.Tecnico) (*models.Tecni
 	return tecnico, nil
 }
 
-func (r *TecnicoRepository) ListarTodosTecnicos() ([]*models.Tecnico, error) {
+func (r *TecnicoRepository) EncontrarTodos() ([]*models.Tecnico, error) {
 	var tecnicos []*models.Tecnico
 	err := r.DB.Find(&tecnicos).Error
 	return tecnicos, err
 }
 
-func (r *TecnicoRepository) EncontraTecnicoPorID(tecnicoID uuid.UUID) (*models.Tecnico, error) {
+func (r *TecnicoRepository) EncontrarPorID(tecnicoID uuid.UUID) (*models.Tecnico, error) {
 	var tecnico models.Tecnico
 	err := r.DB.First(&tecnico, "id = ?", tecnicoID).Error
 	if err != nil {

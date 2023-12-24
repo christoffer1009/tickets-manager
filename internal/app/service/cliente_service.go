@@ -15,7 +15,7 @@ func NovoClienteService(clienteRepository *repository.ClienteRepository) *Client
 	}
 }
 
-func (s *ClienteService) CriarCliente(clienteDTO *models.ClienteDTO) (*models.Cliente, error) {
+func (s *ClienteService) Criar(clienteDTO *models.ClienteDTO) (*models.Cliente, error) {
 
 	novoCliente := models.NovoCliente(
 		clienteDTO.Nome,
@@ -23,9 +23,9 @@ func (s *ClienteService) CriarCliente(clienteDTO *models.ClienteDTO) (*models.Cl
 		clienteDTO.SetorLotacao,
 	)
 
-	return s.ClienteRepository.CriarCliente(novoCliente)
+	return s.ClienteRepository.Criar(novoCliente)
 }
 
-func (s *ClienteService) ListarTodosClientes() ([]*models.Cliente, error) {
-	return s.ClienteRepository.ListarTodosClientes()
+func (s *ClienteService) EncontrarTodos() ([]*models.Cliente, error) {
+	return s.ClienteRepository.EncontrarTodos()
 }

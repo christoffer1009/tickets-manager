@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/christoffer1009/tickets-manager/internal/app/models"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -15,7 +16,7 @@ func NovoTicketRepository(db *gorm.DB) *TicketRepository {
 	}
 }
 
-func (r *TicketRepository) CriarTicket(ticket *models.Ticket) (*models.Ticket, error) {
+func (r *TicketRepository) Criar(ticket *models.Ticket) (*models.Ticket, error) {
 	err := r.DB.Create(ticket).Error
 	if err != nil {
 		return nil, err
@@ -23,7 +24,21 @@ func (r *TicketRepository) CriarTicket(ticket *models.Ticket) (*models.Ticket, e
 	return ticket, err
 }
 
-func (r *TicketRepository) ListarTodosTickets() ([]*models.Ticket, error) {
+func (r *TicketRepository) EncontrarTodos() ([]*models.Ticket, error) {
+	var tickets []*models.Ticket
+	err := r.DB.Find(&tickets).Error
+	return tickets, err
+}
+
+func (r *TicketRepository) EncontrarPorID(id uuid.UUID) (*models.Ticket, error) {
+	var ticket models.Ticket
+	if err := r.DB.First(&ticket, id).Error; err != nil {
+		return nil, err
+	}
+	return &ticket, nil
+}
+
+func (r *TicketRepository) AtribuirTecnico() ([]*models.Ticket, error) {
 	var tickets []*models.Ticket
 	err := r.DB.Find(&tickets).Error
 	return tickets, err

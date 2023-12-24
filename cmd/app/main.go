@@ -33,14 +33,14 @@ func main() {
 	clienteHandler := handlers.NovoClienteHandler(clienteService)
 
 	// Configurar rotas
-	r.POST("/tickets", ticketHandler.CriarTicket)
-	r.GET("/tickets", ticketHandler.ListarTodosTickets)
+	r.POST("/tickets", ticketHandler.Criar)
+	r.GET("/tickets", ticketHandler.ListarTodos)
 
-	r.POST("/tecnicos", tecnicoHandler.CriarTecnico)
-	r.GET("/tecnicos", tecnicoHandler.ListarTodosTecnicos)
+	r.POST("/tecnicos", tecnicoHandler.Criar)
+	r.GET("/tecnicos", tecnicoHandler.ListarTodos)
 
-	r.POST("/clientes", clienteHandler.CriarCliente)
-	r.GET("/clientes", clienteHandler.ListarTodosClientes)
+	r.POST("/clientes", clienteHandler.Criar)
+	r.GET("/clientes", clienteHandler.ListarTodos)
 
 	// Iniciar servidor
 	r.Run(":8080")

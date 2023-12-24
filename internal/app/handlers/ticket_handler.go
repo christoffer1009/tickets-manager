@@ -18,14 +18,14 @@ func NovoTicketHandler(ticketService *service.TicketService) *TicketHandler {
 	}
 }
 
-func (h *TicketHandler) CriarTicket(c *gin.Context) {
+func (h *TicketHandler) Criar(c *gin.Context) {
 	var novoTicketDTO models.TicketDTO
 	if err := c.BindJSON(&novoTicketDTO); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"erro": "Dados inválidos"})
 		return
 	}
 
-	novoTicket, err := h.TicketService.CriarTicket(&novoTicketDTO)
+	novoTicket, err := h.TicketService.Criar(&novoTicketDTO)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao criar o ticket"})
 		return
@@ -35,8 +35,8 @@ func (h *TicketHandler) CriarTicket(c *gin.Context) {
 
 }
 
-func (h *TicketHandler) ListarTodosTickets(c *gin.Context) {
-	tickets, err := h.TicketService.ListarTodosTickets()
+func (h *TicketHandler) ListarTodos(c *gin.Context) {
+	tickets, err := h.TicketService.EncontrarTodos()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao listar os tickets"})
 		return

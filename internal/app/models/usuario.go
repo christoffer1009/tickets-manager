@@ -7,6 +7,6 @@ type Usuario interface {
 	GetID() uuid.UUID
 	GetNome() string
 	GetEmail() string
-	GetSetorLocacao() string
+	GetSetorLotacao() string
 	ToString() string
 }

@@ -18,14 +18,14 @@ func NovoClienteHandler(clienteService *service.ClienteService) *ClienteHandler 
 	}
 }
 
-func (h *ClienteHandler) CriarCliente(c *gin.Context) {
+func (h *ClienteHandler) Criar(c *gin.Context) {
 	var novoClienteDTO models.ClienteDTO
 	if err := c.BindJSON(&novoClienteDTO); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"erro": "Dados inválidos"})
 		return
 	}
 
-	novoCliente, err := h.ClienteService.CriarCliente(&novoClienteDTO)
+	novoCliente, err := h.ClienteService.Criar(&novoClienteDTO)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao criar o ticket"})
 		return
@@ -34,8 +34,8 @@ func (h *ClienteHandler) CriarCliente(c *gin.Context) {
 	c.JSON(http.StatusCreated, novoCliente)
 }
 
-func (h *ClienteHandler) ListarTodosClientes(c *gin.Context) {
-	clientes, err := h.ClienteService.ListarTodosClientes()
+func (h *ClienteHandler) ListarTodos(c *gin.Context) {
+	clientes, err := h.ClienteService.EncontrarTodos()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao listar os clientes"})
 		return

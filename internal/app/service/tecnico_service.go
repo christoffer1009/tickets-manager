@@ -15,7 +15,7 @@ func NovoTecnicoService(tecnicoRepository *repository.TecnicoRepository) *Tecnic
 	}
 }
 
-func (s *TecnicoService) CriarTecnico(tecnicoDTO *models.TecnicoDTO) (*models.Tecnico, error) {
+func (s *TecnicoService) Criar(tecnicoDTO *models.TecnicoDTO) (*models.Tecnico, error) {
 	novoTecnico := models.NovoTecnico(
 
 		tecnicoDTO.Nome,
@@ -23,9 +23,9 @@ func (s *TecnicoService) CriarTecnico(tecnicoDTO *models.TecnicoDTO) (*models.Te
 		tecnicoDTO.Nivel,
 	)
 
-	return s.TecnicoRepository.CriarTecnico(novoTecnico)
+	return s.TecnicoRepository.Criar(novoTecnico)
 }
 
-func (s *TecnicoService) ListarTodosTecnicos() ([]*models.Tecnico, error) {
-	return s.TecnicoRepository.ListarTodosTecnicos()
+func (s *TecnicoService) EncontrarTodos() ([]*models.Tecnico, error) {
+	return s.TecnicoRepository.EncontrarTodos()
 }

@@ -18,14 +18,14 @@ func NovoTecnicoHandler(tecnicoService *service.TecnicoService) *TecnicoHandler 
 	}
 }
 
-func (h *TecnicoHandler) CriarTecnico(c *gin.Context) {
+func (h *TecnicoHandler) Criar(c *gin.Context) {
 	var novoTecnicoDTO models.TecnicoDTO
 	if err := c.BindJSON(&novoTecnicoDTO); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"erro": "Dados inválidos"})
 		return
 	}
 
-	novoTecnico, err := h.TecnicoService.CriarTecnico(&novoTecnicoDTO)
+	novoTecnico, err := h.TecnicoService.Criar(&novoTecnicoDTO)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao criar o ticket"})
 		return
@@ -34,8 +34,8 @@ func (h *TecnicoHandler) CriarTecnico(c *gin.Context) {
 	c.JSON(http.StatusCreated, novoTecnico)
 }
 
-func (h *TecnicoHandler) ListarTodosTecnicos(c *gin.Context) {
-	tecnicos, err := h.TecnicoService.ListarTodosTecnicos()
+func (h *TecnicoHandler) ListarTodos(c *gin.Context) {
+	tecnicos, err := h.TecnicoService.EncontrarTodos()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao listar os técnicos"})
 		return

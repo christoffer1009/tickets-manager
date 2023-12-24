@@ -16,7 +16,7 @@ func NovoClienteRepository(db *gorm.DB) *ClienteRepository {
 	}
 }
 
-func (r *ClienteRepository) CriarCliente(cliente *models.Cliente) (*models.Cliente, error) {
+func (r *ClienteRepository) Criar(cliente *models.Cliente) (*models.Cliente, error) {
 	if err := r.DB.Create(cliente).Error; err != nil {
 		return nil, err
 	}
@@ -24,13 +24,13 @@ func (r *ClienteRepository) CriarCliente(cliente *models.Cliente) (*models.Clien
 	return cliente, nil
 }
 
-func (r *ClienteRepository) ListarTodosClientes() ([]*models.Cliente, error) {
+func (r *ClienteRepository) EncontrarTodos() ([]*models.Cliente, error) {
 	var clientes []*models.Cliente
 	err := r.DB.Find(&clientes).Error
 	return clientes, err
 }
 
-func (r *ClienteRepository) EncontraClientePorID(clienteID uuid.UUID) (*models.Cliente, error) {
+func (r *ClienteRepository) EncontrarPorID(clienteID uuid.UUID) (*models.Cliente, error) {
 	var cliente models.Cliente
 	err := r.DB.First(&cliente, "id = ?", clienteID).Error
 	if err != nil {

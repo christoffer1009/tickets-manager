@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/christoffer1009/tickets-manager/internal/app/models"
 	"github.com/christoffer1009/tickets-manager/internal/app/repository"
+	"github.com/google/uuid"
 )
 
 type TicketService struct {
@@ -22,9 +23,9 @@ func NovoTicketService(ticketRepository *repository.TicketRepository,
 	}
 }
 
-func (s *TicketService) CriarTicket(ticketDTO *models.TicketDTO) (*models.Ticket, error) {
+func (s *TicketService) Criar(ticketDTO *models.TicketDTO) (*models.Ticket, error) {
 
-	cliente, err := s.ClienteRepository.EncontraClientePorID(ticketDTO.ClienteID)
+	cliente, err := s.ClienteRepository.EncontrarPorID(ticketDTO.ClienteID)
 	if err != nil {
 		return nil, err
 	}
@@ -36,9 +37,13 @@ func (s *TicketService) CriarTicket(ticketDTO *models.TicketDTO) (*models.Ticket
 		cliente,
 	)
 
-	return s.TicketRepository.CriarTicket(novoTicket)
+	return s.TicketRepository.Criar(novoTicket)
 }
 
-func (s *TicketService) ListarTodosTickets() ([]*models.Ticket, error) {
-	return s.TicketRepository.ListarTodosTickets()
+func (s *TicketService) EncontrarTodos() ([]*models.Ticket, error) {
+	return s.TicketRepository.EncontrarTodos()
+}
+
+func (s *TicketService) EncontrarPorID(id uuid.UUID) (*models.Ticket, error) {
+	return s.TicketRepository.EncontrarPorID(id)
 }
