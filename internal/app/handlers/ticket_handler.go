@@ -7,6 +7,7 @@ import (
 	"github.com/christoffer1009/tickets-manager/internal/app/service"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type TicketHandler struct {
@@ -92,4 +93,48 @@ func (h *TicketHandler) AtribuirTecnico(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Técnico atribuído com sucesso ao ticket"})
+}
+
+func (h *TicketHandler) Atualizar(c *gin.Context) {
+	ticketID, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Formato inválido de ID"})
+		return
+	}
+
+	var ticketDTO models.AtualizarTicketDTO
+
+	if err := c.ShouldBindJSON(&ticketDTO); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Passa o ID para o DTO
+	ticketDTO.ID = ticketID
+
+	if err := h.TicketService.Atualizar(&ticketDTO); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Ticket atualizado com sucesso"})
+}
+
+func (h *TicketHandler) Excluir(c *gin.Context) {
+	id, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Formato inválido de ID"})
+		return
+	}
+
+	if err := h.TicketService.Excluir(id); err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Ticket não encontrado"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Ticket deletado com sucesso"})
 }

@@ -58,3 +58,27 @@ func (r *TicketRepository) AtribuirTecnico(ticketID uuid.UUID, tecnicoID uuid.UU
 
 	return nil
 }
+
+func (r *TicketRepository) Existe(id uuid.UUID) bool {
+	var count int64
+	r.DB.Model(&models.Ticket{}).Where("id = ?", id).Count(&count)
+	return count > 0
+}
+
+func (r *TicketRepository) Atualizar(ticket *models.Ticket) error {
+	// Verifica se o ticket existe antes de atualizar
+	if !r.Existe(ticket.ID) {
+		return gorm.ErrRecordNotFound
+	}
+
+	return r.DB.Save(ticket).Error
+}
+
+func (r *TicketRepository) Excluir(id uuid.UUID) error {
+	// Verifica se o ticket existe antes de deletar
+	if !r.Existe(id) {
+		return gorm.ErrRecordNotFound
+	}
+
+	return r.DB.Delete(&models.Ticket{}, id).Error
+}

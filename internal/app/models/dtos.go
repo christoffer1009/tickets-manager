@@ -15,7 +15,17 @@ type TicketDTO struct {
 	DataAbertura   time.Time  `json:"data_abertura"`
 	DataFechamento *time.Time `json:"data_fechamento"`
 	TecnicoID      uuid.UUID  `json:"tecnico_id"`
-	SolicitanteID  uuid.UUID  `json:"solicitante_id"`
+	ClienteID      uuid.UUID  `json:"cliente_id"`
+}
+
+type AtualizarTicketDTO struct {
+	ID             uuid.UUID  `json:"id"`
+	Titulo         string     `json:"titulo"`
+	Descricao      string     `json:"descricao"`
+	Status         Status     `json:"status"`
+	DataAbertura   time.Time  `json:"data_abertura"`
+	DataFechamento *time.Time `json:"data_fechamento"`
+	TecnicoID      uuid.UUID  `json:"tecnico_id"`
 }
 
 // TecnicoDTO representa a estrutura de dados para transferência de dados relacionados a técnicos.
