@@ -25,6 +25,7 @@ type TecnicoDTO struct {
 	Email               string          `json:"email"`
 	TicketsSolucionados int             `json:"tickets_solucionados"`
 	Nivel               NivelPrivilegio `json:"nivel"`
+	SetorLotacao        string          `json:"setor_lotacao"`
 }
 
 // ClienteDTO representa a estrutura de dados para transferência de dados relacionados a clientes.

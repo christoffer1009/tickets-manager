@@ -19,9 +19,9 @@ const (
 type Tecnico struct {
 	ID                  uuid.UUID       `json:"id" gorm:"primaryKey"`
 	Nome                string          `json:"nome"`
-	TicketsSolucionados int             `json:"ticketsSolucionados"`
+	TicketsSolucionados int             `json:"tickets_solucionados"`
 	Nivel               NivelPrivilegio `json:"nivel"`
-	SetorLocacao        string          `json:"setorLocacao"`
+	SetorLotacao        string          `json:"setor_lotacao"`
 	Email               string          `json:"email" gorm:"unique"`
 	Tickets             []*Ticket       `json:"tickets,omitempty" gorm:"foreignKey:ResponsavelID"`
 }
@@ -32,7 +32,7 @@ func NovoTecnico(nome, email string, nivel NivelPrivilegio) *Tecnico {
 		ID:           uuid.New(),
 		Nome:         nome,
 		Nivel:        nivel,
-		SetorLocacao: "TI",
+		SetorLotacao: "TI",
 		Email:        email,
 	}
 }
@@ -44,80 +44,6 @@ func (t *Tecnico) BeforeCreate(tx *gorm.DB) (err error) {
 	return
 }
 
-// SetID é um setter para o campo ID.
-// func (t *Tecnico) SetID(id string) {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	t.id = id
-// }
-
-// GetID é um getter para o campo ID.
-// func (t *Tecnico) GetID() uuid.UUID {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	return t.id
-// }
-
-// // SetNome é um setter para o campo Nome.
-// func (t *Tecnico) SetNome(nome string) {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	t.nome = nome
-// }
-
-// // GetNome é um getter para o campo Nome.
-// func (t *Tecnico) GetNome() string {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	return t.nome
-// }
-
-// func (t *Tecnico) SetEmail(email string) {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	t.email = email
-// }
-
-// func (t *Tecnico) GetEmail() string {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	return t.email
-// }
-
-// // SetNivel é um setter para o campo Nivel.
-// func (t *Tecnico) SetNivel(nivel NivelPrivilegio) {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	t.nivel = nivel
-// }
-
-// // GetNivel é um getter para o campo Nivel.
-// func (t *Tecnico) GetNivel() NivelPrivilegio {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	return t.nivel
-// }
-
-// // SetTicketsSolucionados é um setter para o campo ticketsSolucionados.
-// func (t *Tecnico) setTicketsSolucionados(ticketsSolucionados int) {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	t.ticketsSolucionados = ticketsSolucionados
-// }
-
-// // GetTicketsSolucionados é um getter para o campo ticketsSolucionados.
-// func (t *Tecnico) GetTicketsSolucionados() int {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	return t.ticketsSolucionados
-// }
-
-// func (t *Tecnico) GetSetorLocacao() string {
-// 	t.mu.Lock()
-// 	defer t.mu.Unlock()
-// 	return t.setorLocacao
-// }
-
 func (t *Tecnico) AdicionarTicketsSolucionados() int {
 	t.TicketsSolucionados += 1
 	return t.TicketsSolucionados
@@ -126,5 +52,5 @@ func (t *Tecnico) AdicionarTicketsSolucionados() int {
 // ToString retorna uma string formatada com informações sobre o técnico.
 func (t *Tecnico) ToString() string {
 	return fmt.Sprintf("ID: %s\nNome: %s\nEmail: %s\nSetor de Locação: %s\nNivel : %s\nTickets Solucionados: %d",
-		t.ID, t.Nome, t.Email, t.SetorLocacao, t.Nivel, t.TicketsSolucionados)
+		t.ID, t.Nome, t.Email, t.SetorLotacao, t.Nivel, t.TicketsSolucionados)
 }
