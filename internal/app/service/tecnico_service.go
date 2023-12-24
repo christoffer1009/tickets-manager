@@ -40,7 +40,7 @@ func (s *TecnicoService) EncontrarPorID(tecnicoID uuid.UUID) (*models.Tecnico, e
 func (s *TecnicoService) Atualizar(id uuid.UUID, tecnicoDTO *models.AtualizarTecnicoDTO) error {
 	// Verifica se o tecnico existe antes de atualizar
 	if !s.TecnicoRepository.Existe(id) {
-		return fmt.Errorf("tecnico com ID %v não encontrado", tecnicoDTO.ID)
+		return fmt.Errorf("tecnico com ID %v não encontrado", id)
 	}
 
 	return s.TecnicoRepository.Atualizar(id, tecnicoDTO)

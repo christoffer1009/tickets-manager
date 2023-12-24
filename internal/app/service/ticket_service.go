@@ -55,23 +55,13 @@ func (s *TicketService) AtribuirTecnico(ticketID uuid.UUID, tecnicoID uuid.UUID)
 	return s.TicketRepository.AtribuirTecnico(ticketID, tecnicoID)
 }
 
-func (s *TicketService) Atualizar(ticketDTO *models.AtualizarTicketDTO) error {
+func (s *TicketService) Atualizar(id uuid.UUID, ticketDTO *models.AtualizarTicketDTO) error {
 	// Verifica se o ticket existe antes de atualizar
-	if !s.TicketRepository.Existe(ticketDTO.ID) {
-		return fmt.Errorf("ticket com ID %v não encontrado", ticketDTO.ID)
-	}
-	// Converte o DTO para o modelo
-	ticket := &models.Ticket{
-		ID:             ticketDTO.ID,
-		Titulo:         ticketDTO.Titulo,
-		Descricao:      ticketDTO.Descricao,
-		Status:         ticketDTO.Status,
-		DataAbertura:   ticketDTO.DataAbertura,
-		DataFechamento: ticketDTO.DataFechamento,
-		TecnicoID:      &ticketDTO.TecnicoID,
+	if !s.TicketRepository.Existe(id) {
+		return fmt.Errorf("ticket com ID %v não encontrado", id)
 	}
 
-	return s.TicketRepository.Atualizar(ticket)
+	return s.TicketRepository.Atualizar(id, ticketDTO)
 }
 
 func (s *TicketService) Excluir(id uuid.UUID) error {

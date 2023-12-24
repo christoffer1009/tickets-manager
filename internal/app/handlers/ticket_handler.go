@@ -96,7 +96,7 @@ func (h *TicketHandler) AtribuirTecnico(c *gin.Context) {
 }
 
 func (h *TicketHandler) Atualizar(c *gin.Context) {
-	ticketID, err := uuid.Parse(c.Param("id"))
+	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Formato inválido de ID"})
 		return
@@ -109,10 +109,7 @@ func (h *TicketHandler) Atualizar(c *gin.Context) {
 		return
 	}
 
-	// Passa o ID para o DTO
-	ticketDTO.ID = ticketID
-
-	if err := h.TicketService.Atualizar(&ticketDTO); err != nil {
+	if err := h.TicketService.Atualizar(id, &ticketDTO); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

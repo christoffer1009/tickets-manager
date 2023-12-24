@@ -65,10 +65,36 @@ func (r *TicketRepository) Existe(id uuid.UUID) bool {
 	return count > 0
 }
 
-func (r *TicketRepository) Atualizar(ticket *models.Ticket) error {
+func (r *TicketRepository) Atualizar(id uuid.UUID, ticketDTO *models.AtualizarTicketDTO) error {
 	// Verifica se o ticket existe antes de atualizar
-	if !r.Existe(ticket.ID) {
+	if !r.Existe(id) {
 		return gorm.ErrRecordNotFound
+	}
+
+	ticket, err := r.EncontrarPorID(id)
+	if err != nil {
+		return err
+	}
+
+	// Atualiza apenas os campos fornecidos no DTO
+	if ticketDTO.Titulo != "" {
+		ticket.Titulo = ticketDTO.Titulo
+	}
+
+	if ticketDTO.Descricao != "" {
+		ticket.Descricao = ticketDTO.Descricao
+	}
+
+	if ticketDTO.Status != "" {
+		ticket.Status = ticketDTO.Status
+	}
+
+	if ticketDTO.DataFechamento != nil {
+		ticket.DataFechamento = ticketDTO.DataFechamento
+	}
+
+	if ticketDTO.TecnicoID != uuid.Nil {
+		ticket.TecnicoID = &ticketDTO.TecnicoID
 	}
 
 	return r.DB.Save(ticket).Error

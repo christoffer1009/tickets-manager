@@ -19,11 +19,11 @@ type TicketDTO struct {
 }
 
 type AtualizarTicketDTO struct {
-	ID             uuid.UUID  `json:"id"`
-	Titulo         string     `json:"titulo"`
-	Descricao      string     `json:"descricao"`
-	Status         Status     `json:"status"`
-	DataAbertura   time.Time  `json:"data_abertura"`
+	// ID             uuid.UUID  `json:"id"`
+	Titulo    string `json:"titulo"`
+	Descricao string `json:"descricao"`
+	Status    Status `json:"status"`
+	// DataAbertura   time.Time  `json:"data_abertura"`
 	DataFechamento *time.Time `json:"data_fechamento"`
 	TecnicoID      uuid.UUID  `json:"tecnico_id"`
 }
@@ -39,7 +39,7 @@ type TecnicoDTO struct {
 }
 
 type AtualizarTecnicoDTO struct {
-	ID                  uuid.UUID       `json:"id"`
+	// ID                  uuid.UUID       `json:"id"`
 	Nome                string          `json:"nome"`
 	Email               string          `json:"email"`
 	TicketsSolucionados int             `json:"tickets_solucionados"`
