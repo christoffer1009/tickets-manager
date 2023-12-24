@@ -25,7 +25,7 @@ func NovoTicketService(ticketRepository *repository.TicketRepository,
 
 func (s *TicketService) Criar(ticketDTO *models.TicketDTO) (*models.Ticket, error) {
 
-	cliente, err := s.ClienteRepository.EncontrarPorID(ticketDTO.ClienteID)
+	cliente, err := s.ClienteRepository.EncontrarPorID(ticketDTO.SolicitanteID)
 	if err != nil {
 		return nil, err
 	}
