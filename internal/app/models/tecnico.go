@@ -11,8 +11,8 @@ import (
 type NivelPrivilegio string
 
 const (
-	Administrador NivelPrivilegio = "Administrador"
-	Normal        NivelPrivilegio = "Normal"
+	Administrador NivelPrivilegio = "administrador"
+	Normal        NivelPrivilegio = "normal"
 )
 
 // Tecnico representa um técnico responsável por resolver os tickets.

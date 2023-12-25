@@ -19,6 +19,7 @@ func NovoTecnicoService(tecnicoRepository *repository.TecnicoRepository) *Tecnic
 }
 
 func (s *TecnicoService) Criar(tecnicoDTO *models.TecnicoDTO) (*models.Tecnico, error) {
+
 	novoTecnico := models.NovoTecnico(
 
 		tecnicoDTO.Nome,

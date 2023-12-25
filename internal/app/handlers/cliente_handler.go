@@ -3,9 +3,11 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/christoffer1009/tickets-manager/internal/app/custom_errors"
 	"github.com/christoffer1009/tickets-manager/internal/app/models"
 	"github.com/christoffer1009/tickets-manager/internal/app/service"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -21,23 +23,40 @@ func NovoClienteHandler(clienteService *service.ClienteService) *ClienteHandler 
 }
 
 func (h *ClienteHandler) Criar(c *gin.Context) {
-	var novoClienteDTO models.ClienteDTO
+	var clienteDTO models.ClienteDTO
 
-	if err := c.BindJSON(&novoClienteDTO); err != nil {
+	if err := c.BindJSON(&clienteDTO); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"erro": "Dados inválidos"})
 		return
 	}
 
-	novoCliente, err := h.ClienteService.Criar(&novoClienteDTO)
+	validate := validator.New()
+
+	if err := validate.Struct(clienteDTO); err != nil {
+		var errosValidacao []custom_errors.ErroValidacao
+
+		for _, fieldError := range err.(validator.ValidationErrors) {
+			erroValidacao := custom_errors.ErroValidacao{
+				Campo:    fieldError.Field(),
+				Mensagem: fieldError.Tag(),
+			}
+			errosValidacao = append(errosValidacao, erroValidacao)
+		}
+
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "Erro de validação", "detalhes": errosValidacao})
+		return
+	}
+
+	novoCliente, err := h.ClienteService.Criar(&clienteDTO)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao criar o ticket"})
 		return
 	}
 
-	novoClienteDTO.ID = novoCliente.ID
-	novoClienteDTO.TotalTickets = novoCliente.TotalTickets
+	clienteDTO.ID = novoCliente.ID
+	clienteDTO.TotalTickets = novoCliente.TotalTickets
 
-	c.JSON(http.StatusCreated, novoClienteDTO)
+	c.JSON(http.StatusCreated, clienteDTO)
 }
 
 func (h *ClienteHandler) EncontrarTodos(c *gin.Context) {
