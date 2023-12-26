@@ -128,6 +128,23 @@ func (h *TicketHandler) Atualizar(c *gin.Context) {
 		return
 	}
 
+	validate := validator.New()
+
+	if err := validate.Struct(ticketDTO); err != nil {
+		var errosValidacao []custom_errors.ErroValidacao
+
+		for _, fieldError := range err.(validator.ValidationErrors) {
+			erroValidacao := custom_errors.ErroValidacao{
+				Campo:    fieldError.Field(),
+				Mensagem: fieldError.Tag(),
+			}
+			errosValidacao = append(errosValidacao, erroValidacao)
+		}
+
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "Erro de validação", "detalhes": errosValidacao})
+		return
+	}
+
 	if err := h.TicketService.Atualizar(id, &ticketDTO); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

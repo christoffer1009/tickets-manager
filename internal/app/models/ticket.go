@@ -12,10 +12,10 @@ import (
 type Status string
 
 const (
-	Aberto      Status = "Aberto"
-	Atribuido   Status = "Atribuído"
-	Solucionado Status = "Solucionado"
-	Fechado     Status = "Fechado"
+	aberto      Status = "aberto"
+	atribuido   Status = "atribuído"
+	solucionado Status = "solucionado"
+	fechado     Status = "fechado"
 )
 
 // Ticket representa um ticket de suporte.
@@ -33,16 +33,16 @@ type Ticket struct {
 }
 
 // NovoTicket é um construtor para criar uma nova instância de Ticket.
-func NovoTicket(titulo, descricao string, responsavel *Tecnico, solicitante *Cliente) *Ticket {
+func NovoTicket(titulo, descricao string, responsavel *Tecnico, cliente *Cliente) *Ticket {
 	return &Ticket{
 		ID:             uuid.New(),
 		Titulo:         titulo,
 		Descricao:      descricao,
-		Status:         Status(Aberto),
+		Status:         Status(aberto),
 		DataAbertura:   time.Now(),
 		DataFechamento: nil,
 		Tecnico:        nil,
-		Cliente:        solicitante,
+		Cliente:        cliente,
 	}
 }
 

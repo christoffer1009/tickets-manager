@@ -9,23 +9,23 @@ import (
 // TicketDTO representa a estrutura de dados para transferência de dados relacionados a tickets.
 type TicketDTO struct {
 	ID             uuid.UUID  `json:"id"`
-	Titulo         string     `json:"titulo" validate:"required,min=6,max=50"`
+	Titulo         string     `json:"titulo" validate:"required,min=2,max=50"`
 	Descricao      string     `json:"descricao" validate:"required,min=6,max=1000"`
-	Status         Status     `json:"status"`
+	Status         Status     `json:"status" validade:"required,oneof=aberto atribuido solucionado fechado"`
 	DataAbertura   time.Time  `json:"data_abertura"`
 	DataFechamento *time.Time `json:"data_fechamento"`
-	TecnicoID      uuid.UUID  `json:"tecnico_id"`
-	ClienteID      uuid.UUID  `json:"cliente_id"`
+	TecnicoID      uuid.UUID  `json:"tecnico_id" validate:"uuid"`
+	ClienteID      uuid.UUID  `json:"cliente_id"  validate:"uuid"`
 }
 
 type AtualizarTicketDTO struct {
 	// ID             uuid.UUID  `json:"id"`
-	Titulo    string `json:"titulo" validate:"required,min=6,max=50"`
-	Descricao string `json:"descricao" validate:"required,min=6,max=1000"`
-	Status    Status `json:"status"`
+	Titulo    string `json:"titulo" validate:"omitempty,min=2,max=50"`
+	Descricao string `json:"descricao" validate:"omitempty,min=6,max=1000"`
+	Status    Status `json:"status" validate:"omitempty,oneof=aberto atribuido solucionado fechado"`
 	// DataAbertura   time.Time  `json:"data_abertura"`
 	DataFechamento *time.Time `json:"data_fechamento"`
-	TecnicoID      uuid.UUID  `json:"tecnico_id"`
+	TecnicoID      uuid.UUID  `json:"tecnico_id" validate:"omitempty,uuid"`
 }
 
 // TecnicoDTO representa a estrutura de dados para transferência de dados relacionados a técnicos.
