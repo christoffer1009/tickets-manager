@@ -5,6 +5,7 @@ import (
 
 	"github.com/christoffer1009/tickets-manager/internal/app/models"
 	"github.com/christoffer1009/tickets-manager/internal/app/repository"
+	"github.com/christoffer1009/tickets-manager/utils"
 	"github.com/google/uuid"
 )
 
@@ -19,11 +20,16 @@ func NovoTecnicoService(tecnicoRepository *repository.TecnicoRepository) *Tecnic
 }
 
 func (s *TecnicoService) Criar(tecnicoDTO *models.TecnicoDTO) (*models.Tecnico, error) {
+	hashedSenha, err := utils.GerarHashSenha(tecnicoDTO.Senha)
+	if err != nil {
+		return nil, err
+	}
 
 	novoTecnico := models.NovoTecnico(
 
 		tecnicoDTO.Nome,
 		tecnicoDTO.Email,
+		hashedSenha,
 		tecnicoDTO.Nivel,
 	)
 
@@ -43,6 +49,12 @@ func (s *TecnicoService) Atualizar(id uuid.UUID, tecnicoDTO *models.AtualizarTec
 	if !s.TecnicoRepository.Existe(id) {
 		return fmt.Errorf("tecnico com ID %v não encontrado", id)
 	}
+
+	hashedSenha, err := utils.GerarHashSenha(tecnicoDTO.Senha)
+	if err != nil {
+		return err
+	}
+	tecnicoDTO.Senha = hashedSenha
 
 	return s.TecnicoRepository.Atualizar(id, tecnicoDTO)
 }

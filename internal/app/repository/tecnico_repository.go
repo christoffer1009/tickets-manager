@@ -46,10 +46,6 @@ func (r *TecnicoRepository) Existe(id uuid.UUID) bool {
 }
 
 func (r *TecnicoRepository) Atualizar(id uuid.UUID, tecnicoDTO *models.AtualizarTecnicoDTO) error {
-	// Verifica se o tecnico existe antes de atualizar
-	if !r.Existe(id) {
-		return gorm.ErrRecordNotFound
-	}
 
 	tecnico, err := r.EncontrarPorID(id)
 	if err != nil {
@@ -75,6 +71,10 @@ func (r *TecnicoRepository) Atualizar(id uuid.UUID, tecnicoDTO *models.Atualizar
 
 	if tecnicoDTO.SetorLotacao != "" {
 		tecnico.SetorLotacao = tecnicoDTO.SetorLotacao
+	}
+
+	if tecnicoDTO.Senha != "" {
+		tecnico.Senha = tecnicoDTO.Senha
 	}
 
 	return r.DB.Save(tecnico).Error

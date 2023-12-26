@@ -73,6 +73,10 @@ func (r *ClienteRepository) Atualizar(id uuid.UUID, clienteDTO *models.Atualizar
 		cliente.TotalTickets = clienteDTO.TotalTickets
 	}
 
+	if clienteDTO.Senha != "" {
+		cliente.Senha = clienteDTO.Senha
+	}
+
 	return r.DB.Save(cliente).Error
 }
 
