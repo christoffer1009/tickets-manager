@@ -39,6 +39,15 @@ func (r *TecnicoRepository) EncontrarPorID(tecnicoID uuid.UUID) (*models.Tecnico
 	return &tecnico, nil
 }
 
+func (r *TecnicoRepository) EncontrarPorEmail(email string) (*models.Tecnico, error) {
+	var tecnico models.Tecnico
+	err := r.DB.First(&tecnico, "email = ?", email).Error
+	if err != nil {
+		return nil, err
+	}
+	return &tecnico, nil
+}
+
 func (r *TecnicoRepository) Existe(id uuid.UUID) bool {
 	var count int64
 	r.DB.Model(&models.Tecnico{}).Where("id = ?", id).Count(&count)

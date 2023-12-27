@@ -35,8 +35,8 @@ type TecnicoDTO struct {
 	Email               string          `json:"email" validate:"required,email"`
 	TicketsSolucionados int             `json:"tickets_solucionados"`
 	Nivel               NivelPrivilegio `json:"nivel" validate:"required,oneof=administrador normal"`
-	SetorLotacao        string          `json:"setor_lotacao"  validate:"required,min=1,max=50"`
-	Senha               string          `json:"senha" validate:"required,min=6,max=32"`
+	// SetorLotacao        string          `json:"setor_lotacao"  validate:"required,min=1,max=50"`
+	Senha string `json:"senha" validate:"required,min=6,max=32"`
 }
 
 type AtualizarTecnicoDTO struct {

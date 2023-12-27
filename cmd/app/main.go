@@ -5,6 +5,7 @@ import (
 	"github.com/christoffer1009/tickets-manager/internal/app/models"
 	"github.com/christoffer1009/tickets-manager/internal/app/repository"
 	"github.com/christoffer1009/tickets-manager/internal/app/service"
+	"github.com/christoffer1009/tickets-manager/pkg/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,6 +32,7 @@ func main() {
 	ticketHandler := handlers.NovoTicketHandler(ticketService)
 	tecnicoHandler := handlers.NovoTecnicoHandler(tecnicoService)
 	clienteHandler := handlers.NovoClienteHandler(clienteService)
+	loginHandler := handlers.NovoLoginHandler(clienteService, tecnicoService)
 
 	// Configurar rotas
 	r.POST("/tickets", ticketHandler.Criar)
@@ -51,6 +53,10 @@ func main() {
 	r.GET("/clientes/:id", clienteHandler.EncontrarPorID)
 	r.PUT("/clientes/:id", clienteHandler.Atualizar)
 	r.DELETE("/clientes/:id", clienteHandler.Excluir)
+
+	r.POST("/login", loginHandler.Login)
+
+	r.GET("/protegida", middleware.AuthMiddleware, tecnicoHandler.Protegido)
 
 	// Iniciar servidor
 	r.Run(":8080")

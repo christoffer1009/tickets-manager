@@ -43,6 +43,10 @@ func (s *ClienteService) EncontrarPorID(clienteID uuid.UUID) (*models.Cliente, e
 	return s.ClienteRepository.EncontrarPorID(clienteID)
 }
 
+func (s *ClienteService) EncontrarPorEmail(email string) (*models.Cliente, error) {
+	return s.ClienteRepository.EncontrarPorEmail(email)
+}
+
 func (s *ClienteService) Atualizar(id uuid.UUID, clienteDTO *models.AtualizarClienteDTO) error {
 
 	// Verifica se o cliente existe antes de atualizar

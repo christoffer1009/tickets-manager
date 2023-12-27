@@ -1,12 +1,14 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/christoffer1009/tickets-manager/internal/app/models"
 	"github.com/christoffer1009/tickets-manager/internal/app/service"
 	"github.com/christoffer1009/tickets-manager/internal/app/validators"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -119,4 +121,17 @@ func (h *TecnicoHandler) Excluir(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Técnico deletado com sucesso"})
+}
+
+func (h *TecnicoHandler) Protegido(c *gin.Context) {
+	// Extrai informações do token, se necessário
+	claims, exists := c.Get("claims")
+	if !exists {
+		c.JSON(401, gin.H{"error": "Token claims not found"})
+		return
+	}
+
+	email := claims.(jwt.MapClaims)["email"].(string)
+
+	c.JSON(200, gin.H{"message": fmt.Sprintf("Hello, %s! This is a protected route.", email)})
 }

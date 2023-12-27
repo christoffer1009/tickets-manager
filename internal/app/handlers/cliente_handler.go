@@ -41,10 +41,10 @@ func (h *ClienteHandler) Criar(c *gin.Context) {
 		return
 	}
 
-	clienteDTO.ID = novoCliente.ID
-	clienteDTO.TotalTickets = novoCliente.TotalTickets
+	// clienteDTO.ID = novoCliente.ID
+	// clienteDTO.TotalTickets = novoCliente.TotalTickets
 
-	c.JSON(http.StatusCreated, clienteDTO)
+	c.JSON(http.StatusCreated, novoCliente)
 }
 
 func (h *ClienteHandler) EncontrarTodos(c *gin.Context) {

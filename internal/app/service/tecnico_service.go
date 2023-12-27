@@ -44,6 +44,10 @@ func (s *TecnicoService) EncontrarPorID(tecnicoID uuid.UUID) (*models.Tecnico, e
 	return s.TecnicoRepository.EncontrarPorID(tecnicoID)
 }
 
+func (s *TecnicoService) EncontrarPorEmail(email string) (*models.Tecnico, error) {
+	return s.TecnicoRepository.EncontrarPorEmail(email)
+}
+
 func (s *TecnicoService) Atualizar(id uuid.UUID, tecnicoDTO *models.AtualizarTecnicoDTO) error {
 	// Verifica se o tecnico existe antes de atualizar
 	if !s.TecnicoRepository.Existe(id) {

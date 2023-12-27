@@ -39,6 +39,15 @@ func (r *ClienteRepository) EncontrarPorID(clienteID uuid.UUID) (*models.Cliente
 	return &cliente, nil
 }
 
+func (r *ClienteRepository) EncontrarPorEmail(email string) (*models.Cliente, error) {
+	var cliente models.Cliente
+	err := r.DB.First(&cliente, "email = ?", email).Error
+	if err != nil {
+		return nil, err
+	}
+	return &cliente, nil
+}
+
 func (r *ClienteRepository) Existe(id uuid.UUID) bool {
 	var count int64
 	r.DB.Model(&models.Cliente{}).Where("id = ?", id).Count(&count)
