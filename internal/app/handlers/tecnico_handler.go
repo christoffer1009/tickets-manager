@@ -131,7 +131,9 @@ func (h *TecnicoHandler) Protegido(c *gin.Context) {
 		return
 	}
 
+	id := claims.(jwt.MapClaims)["id"].(string)
+	nome := claims.(jwt.MapClaims)["nome"].(string)
 	email := claims.(jwt.MapClaims)["email"].(string)
 
-	c.JSON(200, gin.H{"message": fmt.Sprintf("Hello, %s! This is a protected route.", email)})
+	c.JSON(200, gin.H{"message": fmt.Sprintf("Olá, %s! email: %s e id: %s.", email, nome, id)})
 }

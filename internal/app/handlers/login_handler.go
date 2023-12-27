@@ -8,6 +8,7 @@ import (
 	"github.com/christoffer1009/tickets-manager/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -63,7 +64,7 @@ func (h *LoginHandler) Login(c *gin.Context) {
 			c.JSON(http.StatusUnauthorized, gin.H{"erro": "credenciais erradas"})
 		} else {
 			// Cria o token JWT
-			token, err := h.gerarToken(secretkey, cliente.Email)
+			token, err := h.gerarToken(secretkey, cliente.ID, cliente.Nome, cliente.Email)
 			if err != nil {
 				return
 			}
@@ -75,7 +76,7 @@ func (h *LoginHandler) Login(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{"erro": "erro de hash"})
 		} else {
 			// Cria o token JWT
-			token, err := h.gerarToken(secretkey, tecnico.Email)
+			token, err := h.gerarToken(secretkey, tecnico.ID, tecnico.Nome, tecnico.Email)
 			if err != nil {
 				return
 			}
@@ -88,9 +89,11 @@ func (h *LoginHandler) Login(c *gin.Context) {
 
 }
 
-func (h *LoginHandler) gerarToken(secretkey []byte, email string) (string, error) {
+func (h *LoginHandler) gerarToken(secretkey []byte, id uuid.UUID, nome, email string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id":    id,
+		"nome":  nome,
 		"email": email,
 		"exp":   time.Now().Add(time.Hour * 24).Unix(),
 	})
